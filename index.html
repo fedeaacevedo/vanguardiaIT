@@ -371,45 +371,60 @@
   </form>
 </div>
 
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    emailjs.init("4DV5PbWkwJDRoSlV0"); // Reemplaza "tu_user_id" con tu ID de usuario de emailjs
+    document.addEventListener("DOMContentLoaded", function () {
+        emailjs.init("4DV5PbWkwJDRoSlV0"); // Reemplaza "tu_user_id" con tu ID de usuario de emailjs
 
-    var newsletterForm = document.getElementById("newsletterForm");
+        var newsletterForm = document.getElementById("newsletterForm");
 
-    newsletterForm.addEventListener("submit", function (event) {
-      event.preventDefault();
+        newsletterForm.addEventListener("submit", function (event) {
+            event.preventDefault();
 
-      var emailInput = document.getElementById("newsletterEmail");
-      var isValidEmail = validateEmail(emailInput.value.trim());
+            var emailInput = document.getElementById("newsletterEmail");
+            var isValidEmail = validateEmail(emailInput.value.trim());
 
-      if (!isValidEmail) {
-        alert("Por favor, ingrese un correo electrónico válido.");
-      } else {
-        var formData = {
-          email: emailInput.value
-        };
+            if (!isValidEmail) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: 'Por favor, ingrese un correo electrónico válido.',
+                });
+            } else {
+                var formData = {
+                    email: emailInput.value
+                };
 
-        var serviceID = "service_w14i24j";
-        var templateID = "template_zl6tbem";
+                var serviceID = "service_w14i24j";
+                var templateID = "template_zl6tbem";
 
-        emailjs.send(serviceID, templateID, formData)
-          .then(function (response) {
-            console.log("Formulario enviado con éxito:", response);
-            alert("Gracias por suscribirte. Hemos recibido tu correo electrónico.");
-          }, function (error) {
-            console.error("Error al enviar el formulario:", error);
-            alert("Ocurrió un error al enviar el formulario. Por favor, inténtalo de nuevo más tarde.");
-          });
-      }
+                emailjs.send(serviceID, templateID, formData)
+                    .then(function (response) {
+                        console.log("Formulario enviado con éxito:", response);
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Éxito!',
+                            text: 'Gracias por suscribirte. Hemos recibido tu correo electrónico.',
+                        });
+                    }, function (error) {
+                        console.error("Error al enviar el formulario:", error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: '¡Error!',
+                            text: 'Ocurrió un error al enviar el formulario. Por favor, inténtalo de nuevo más tarde.',
+                        });
+                    });
+            }
+        });
+
+        function validateEmail(email) {
+            var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
     });
-
-    function validateEmail(email) {
-      var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return re.test(email);
-    }
-  });
 </script>
+
             
           
 
