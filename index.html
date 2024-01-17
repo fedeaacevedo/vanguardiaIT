@@ -291,28 +291,38 @@
           
 
           <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-          <script>
-              document.addEventListener("DOMContentLoaded", function() {
-                  emailjs.init("4DV5PbWkwJDRoSlV0"); // Reemplaza "user_your_user_id" con tu User ID
-          
-                  window.sendEmail = function(event) {
-                      if (event) {
-                          event.preventDefault();
-                      }
-          
-                      var form = document.getElementById("contact-form");
-          
-                      emailjs.sendForm("service_w14i24j", "template_zl6tbem", form)
-                          .then(function(response) {
-                              console.log("Correo enviado con éxito", response);
-                              alert("Tu mensaje ha sido enviado. ¡Gracias!");
-                          }, function(error) {
-                              console.error("Error al enviar el correo", error);
-                              alert("Error: Algo salió mal. Por favor, inténtalo de nuevo más tarde.");
-                          });
-                  };
-              });
-          </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        emailjs.init("4DV5PbWkwJDRoSlV0"); // Reemplaza "user_your_user_id" con tu User ID
+
+        window.sendEmail = function (event) {
+            if (event) {
+                event.preventDefault();
+            }
+
+            var form = document.getElementById("contact-form");
+
+            emailjs.sendForm("service_w14i24j", "template_zl6tbem", form)
+                .then(function (response) {
+                    console.log("Correo enviado con éxito", response);
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: 'Tu mensaje ha sido enviado. ¡Gracias!',
+                    });
+                }, function (error) {
+                    console.error("Error al enviar el correo", error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Algo salió mal. Por favor, inténtalo de nuevo más tarde.',
+                    });
+                });
+        };
+    });
+</script>
+
             
             
 
